@@ -1,0 +1,52 @@
+# NALD affine force field: isotropic volumetric strain
+# epsilon_v=Delta V/V; Xi_bulk=-df/d epsilon_v.
+
+variable        temp equal 300
+variable        deltaV equal 1.0e-5
+
+units           real
+dimension       3
+boundary        p p p
+atom_style      full
+
+# Replace this force-field block as needed for the target material.
+bond_style      harmonic
+angle_style     harmonic
+dihedral_style  harmonic
+pair_style      lj/cut/coul/long 9.0
+pair_modify     mix arithmetic
+pair_modify     tail yes
+kspace_style    pppm 1e-5
+special_bonds   amber
+
+read_data       data.rst.${temp}
+timestep        1.0
+run             0
+
+variable        volume equal vol
+print           "${volume}" file volume.data screen no
+
+# Exact scale factors for epsilon_v=+/-deltaV/2.
+variable        sminus equal (1.0-0.5*${deltaV})^(1.0/3.0)
+variable        splus  equal (1.0+0.5*${deltaV})^(1.0/3.0)
+variable        ratio  equal ${splus}/${sminus}
+
+change_box      all x scale ${sminus} y scale ${sminus} z scale ${sminus} remap units box
+run             0
+fix             minus all store/state 0 fx fy fz
+
+change_box      all x scale ${ratio} y scale ${ratio} z scale ${ratio} remap units box
+run             0
+fix             plus all store/state 0 fx fy fz
+
+variable        XiX atom (f_minus[1]-f_plus[1])/${deltaV}
+variable        XiY atom (f_minus[2]-f_plus[2])/${deltaV}
+variable        XiZ atom (f_minus[3]-f_plus[3])/${deltaV}
+write_dump      all custom AF_bulk.data id mass v_XiX v_XiY v_XiZ modify sort id format line "%d %.15g %.15g %.15g %.15g"
+
+unfix           plus
+unfix           minus
+
+variable        sinv equal 1.0/${splus}
+change_box      all x scale ${sinv} y scale ${sinv} z scale ${sinv} remap units box
+run             0 pre yes post no
