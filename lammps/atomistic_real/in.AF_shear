@@ -1,0 +1,55 @@
+# NALD affine force field: xz shear
+# Xi_shear = -df/dgamma_xz by centered finite difference.
+
+variable        temp equal 300
+variable        delta equal 1.0e-5
+
+units           real
+dimension       3
+boundary        p p p
+atom_style      full
+
+# Replace this force-field block as needed for the target material.
+bond_style      harmonic
+angle_style     harmonic
+dihedral_style  harmonic
+pair_style      lj/cut/coul/long 9.0
+pair_modify     mix arithmetic
+pair_modify     tail yes
+kspace_style    pppm 1e-5
+special_bonds   amber
+
+read_data       data.rst.${temp}
+timestep        1.0
+run             0
+
+variable        volume equal vol
+print           "${volume}" file volume.data screen no
+
+change_box      all triclinic
+kspace_style    pppm 1e-5
+
+variable        lz0 equal lz
+variable        half equal 0.5*${delta}
+variable        dhalf equal ${half}*${lz0}
+variable        dfull equal ${delta}*${lz0}
+
+change_box      all xz delta -${dhalf} remap units box
+run             0
+fix             minus all store/state 0 fx fy fz
+
+change_box      all xz delta ${dfull} remap units box
+run             0
+fix             plus all store/state 0 fx fy fz
+
+# LAMMPS force f=-dU/dr, hence Xi=-df/dgamma=(f_minus-f_plus)/delta.
+variable        XiX atom (f_minus[1]-f_plus[1])/${delta}
+variable        XiY atom (f_minus[2]-f_plus[2])/${delta}
+variable        XiZ atom (f_minus[3]-f_plus[3])/${delta}
+write_dump      all custom AF_shear.data id mass v_XiX v_XiY v_XiZ modify sort id format line "%d %.15g %.15g %.15g %.15g"
+
+unfix           plus
+unfix           minus
+
+change_box      all xz delta -${dhalf} remap units box
+run             0 pre yes post no
