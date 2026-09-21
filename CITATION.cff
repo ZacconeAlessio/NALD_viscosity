@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the NALD viscosity papers listed here."
+title: "NALD_viscosity"
+type: software
+authors:
+  - family-names: "Zaccone"
+    given-names: "Alessio"
+license: MIT
+repository-code: "https://github.com/ZacconeAlessio/NALD_viscosity"
+keywords:
+  - nonaffine lattice dynamics
+  - NALD
+  - shear viscosity
+  - bulk viscosity
+  - instantaneous normal modes
+  - affine force field
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Singh"
+      given-names: "Ankit"
+    - family-names: "Vaibhav"
+      given-names: "Vinay"
+    - family-names: "Sirk"
+      given-names: "Timothy W."
+    - family-names: "Zaccone"
+      given-names: "Alessio"
+  title: "Viscosity of polymer melts using non-affine theory based on vibrational modes"
+  journal: "The Journal of Chemical Physics"
+  volume: "162"
+  year: 2025
+  doi: "10.1063/5.0272171"
