@@ -70,7 +70,7 @@ def validate_state(root: Path, name: str) -> None:
     if not np.all(np.diff(corr[:, 0]) > 0):
         raise ValueError(f"{name}: time column must be strictly increasing")
 
-    zeta = float(np.trapezoid(corr[:, 1], corr[:, 0]))
+    zeta = float(np.sum(0.5 * (corr[1:, 1] + corr[:-1, 1]) * np.diff(corr[:, 0])))
     k0 = float(corr[0, 1])
     pub = PUBLISHED[name]
 
