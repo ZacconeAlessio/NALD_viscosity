@@ -66,3 +66,29 @@ For each interaction model/configuration:
 The final point provides a modal-space test of the paper's finding that bulk
 viscosity is coupled strongly to slow, low-q density fluctuations whereas the
 shear channel is much less sensitive.
+
+
+## Collaborator-supplied 124 K package
+
+H. Kobayashi subsequently supplied a private benchmark package for the
+124 K, 1124.9 kg/m^3 state point containing ten coordinate snapshots each for
+s=1.00 and s=0.00, the corresponding bulk Green-Kubo correlation data, the
+TT/JHBV force routine used in the MD code, and the parameter references.
+
+These collaborator-supplied files are **not redistributed by this public
+repository**. Place an authorized local copy outside the repository and run:
+
+```bash
+python benchmarks/kobayashi_2026/validate_supplied_package.py /path/to/data_from_kobayashi
+```
+
+For the supplied files, direct trapezoidal integration gives approximately
+0.38050 mPa s for s=1.00 and 0.03511 mPa s for s=0.00, consistent with the
+published 0.379 +/- 0.008 mPa s and 0.0344 +/- 0.0009 mPa s values,
+respectively. The t=0 correlation values also reproduce the published
+K_inf-K_0 values (0.673 and 0.3908 GPa).
+
+The clean-room implementation in `tt_jhbv.py` follows the published
+Tang-Toennies/JHBV formula and parameter tables. In particular, C16 uses the
+2010 corrigendum value 1.17006343e-6 K nm^16 rather than the erroneous
+1.70063432e-6 printed in the original Jager Table 3.
