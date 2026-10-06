@@ -109,10 +109,11 @@ workflow.
 
 The Kobayashi benchmark contains published values of bulk viscosity, shear
 viscosity, (K_\infty-K_0), and pressure-relaxation time at three liquid-argon
-state points. The complete Tang-Toennies/JHBV potential parameter set and
-instantaneous configurations are not contained in the supplied publication
-files, so the benchmark is currently a target dataset rather than a complete
-reproduction deck.
+state points. H. Kobayashi has also supplied 124 K benchmark correlations and
+equilibrated configurations for the s=1.00 and s=0.00 pair models. A compact
+collaborator-authorized data subset is public under
+`benchmarks/kobayashi_2026/data/`, with provenance and citation requirements
+documented there. End-to-end NALD bulk validation is in progress.
 
 ## References
 
