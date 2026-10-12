@@ -39,9 +39,10 @@ For the full collaborator-supplied files:
 
 The full package also contains ten 1372-particle coordinate snapshots for each
 interaction model. Those configurations are being used for the NALD
-Hessian/affine-force benchmark. A complete reproduction workflow will be added
-after the collaborator's full MD program and accompanying manual have been
-checked, so that the box, cutoff and force conventions can be mirrored exactly.
+Hessian/affine-force benchmark. The subsequently supplied complete MD program
+and manual have now been checked, and the source-matched static reproduction
+workflow is documented one directory above in `source_protocol.md`,
+`static_nald.py`, and `build_static_inputs.py`.
 
 The journal PDFs and collaborator's Fortran source are **not redistributed**
 here.
