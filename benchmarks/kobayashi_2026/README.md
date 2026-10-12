@@ -44,8 +44,13 @@ be included in this public repository, provided the JCP paper is cited.
 A compact public subset is in [`data/`](data/). It contains a summary of the
 full supplied correlation files plus exact sampled rows and the cumulative
 full-resolution Green-Kubo integral. The full coordinate package is being used
-for the NALD calculation; the complete reproduction workflow will be finalized
-after the collaborator's full MD program and manual have been checked.
+for the NALD calculation.
+
+Kobayashi has now also supplied the complete in-house MD package and a manual.
+We checked the force, box, cutoff, periodic-boundary and run conventions needed
+for the static benchmark. They are summarized in
+[`source_protocol.md`](source_protocol.md); the collaborator source itself is
+not redistributed.
 
 Direct trapezoidal integration of the full supplied correlation files gives:
 
@@ -67,15 +72,15 @@ to verify the public benchmark subset.
 
 ## TT/JHBV implementation
 
-`tt_jhbv.py` implements the published Tang-Toennies/JHBV pair potential and
-its first two radial derivatives for Hessian construction. Parameters follow
-the cited Jager and Alboul-Lishchuk parameter tables. The `C16` coefficient
-uses the corrected value `1.17006343e-6 K nm^16`.
+`tt_jhbv.py` now mirrors the supplied production source at force/Hessian
+level. Parameters follow the cited Jager and Alboul-Lishchuk tables, while
+`C12`, `C14`, and `C16` are generated with the same recurrence used in
+the Fortran code.
 
-The attraction-scaled `U_{2,s}` model is represented with the same WCA-like
-decomposition used in the benchmark: below the pair-potential minimum the
-force/curvature are unchanged, while above the minimum the attractive branch is
-scaled by `s`.
+The attraction-scaled `U_{2,s}` model keeps the full TT force below
+`r_min = 3.7618 Angstrom` and scales the branch above the minimum by `s`.
+The exact production cutoff is also reproduced: `s=0` uses `r_min`, while
+every nonzero `s` uses `5 sigma_MD = 1.6976 nm`.
 
 ## Reported simulation protocol
 
@@ -89,7 +94,17 @@ cutoff is 1.7 nm. An Axilrod-Teller-Muto three-body term is also studied in the
 paper, but the present collaborator benchmark focuses on the pair-potential
 `s=1.00` and `s=0.00` models.
 
-## NALD comparison plan
+## Static NALD reproduction
+
+`static_nald.py` constructs pair forces, the dense equal-mass dynamical
+matrix, and centered finite-difference bulk/shear affine-force fields directly
+from the supplied coordinates. `build_static_inputs.py` writes the
+mass-normalized Hessian and mass-weighted affine vectors as NumPy arrays and can
+optionally perform the full eigendecomposition.
+
+The first supplied snapshot of each pair model has also been run through a
+force/Hessian/affine preflight; see `preflight_first_snapshot.csv`. This is a
+code-path check, not yet a viscosity validation.
 
 For each supplied configuration we will:
 
