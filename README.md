@@ -113,7 +113,9 @@ state points. H. Kobayashi has also supplied 124 K benchmark correlations and
 equilibrated configurations for the s=1.00 and s=0.00 pair models. A compact
 collaborator-authorized data subset is public under
 `benchmarks/kobayashi_2026/data/`, with provenance and citation requirements
-documented there. End-to-end NALD bulk validation is in progress.
+documented there. The complete collaborator MD package/manual has now been
+checked and the benchmark code mirrors its pair-force and cutoff conventions.
+End-to-end NALD bulk-viscosity validation is still in progress.
 
 ## References
 
