@@ -131,23 +131,38 @@ The first full 10-snapshot Hessian/affine-force calculation has now been
 completed for both `s=1.00` and `s=0.00`.  The exploratory results are in
 [`mode_results/`](mode_results/).
 
-The main finding so far is that the **bulk structural prefactor is strongly
-attraction sensitive**.  With a symmetric 0.100 THz low-frequency cutoff,
+An exploratory cutoff scan showed that the bulk structural ratio can be made
+close to the Green-Kubo viscosity ratio near 0.095 THz. We have now tested that
+scale independently using plane-wave Rayleigh quotients of the instantaneous
+Hessian at the box fundamental wavevector,
 
 ```text
-A_K(s=1.00) / A_K(s=0.00) = 10.424
+q_min = 2*pi/L = 1.453 nm^-1.
 ```
 
-compared with the published Green-Kubo bulk-viscosity ratio of 11.017.
-A bootstrap analysis places the cutoff at which the structural ratio crosses
-the published ratio near 0.095 THz.
+The resulting ten-snapshot averages are about 0.275 THz for the longitudinal
+fundamental and 0.150--0.162 THz for the transverse fundamental. Thus the
+0.095 THz fitted crossing lies below the box's independently estimated
+propagating acoustic scales and is not accepted as a physical finite-size
+cutoff.
 
-This agreement is not yet counted as validation because the low-frequency
-cutoff has not been fixed independently.  Moreover, the shear ratio is not
-simultaneously reproduced by the same cutoff and constant damping.  The current
-result therefore points directly to the remaining physics: a justified
-longitudinal/transverse finite-size treatment and/or a frequency-dependent
-memory kernel.
+With the model-specific q_min longitudinal cutoff for bulk, the structural
+ratio is only
+
+```text
+A_K(s=1.00) / A_K(s=0.00) = 2.194,
+```
+
+versus the Green-Kubo bulk-viscosity ratio 11.017. The corresponding shear
+structural ratio using the transverse q_min scale is 3.176, versus the
+Green-Kubo shear-viscosity ratio 1.213.
+
+This is a useful diagnostic result: the static Hessian/affine-force sector is
+not sufficient by itself. The supplied pressure correlations show an enormous
+dynamical contrast (integral relaxation times 0.565 ps versus 0.0898 ps, with
+90% accumulation times 7.80 ps versus 0.120 ps). The next benchmark step is
+therefore a non-Markovian, channel-dependent memory treatment tied to the
+observed low-q pressure-density relaxation rather than a fitted scalar damping.
 
 ## Data provenance
 
