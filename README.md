@@ -115,7 +115,7 @@ collaborator-authorized data subset is public under
 `benchmarks/kobayashi_2026/data/`, with provenance and citation requirements
 documented there. The complete collaborator MD package/manual has now been
 checked and the benchmark code mirrors its pair-force and cutoff conventions.
-An initial 10-snapshot mode-resolved calculation is now available under `benchmarks/kobayashi_2026/mode_results/`. An independently estimated q_min acoustic cutoff does not reproduce the Green-Kubo attraction dependence with a single Markovian damping constant; the supplied pressure-relaxation data instead point to an essential non-Markovian, channel-dependent dynamical contribution. End-to-end NALD bulk-viscosity validation is therefore still in progress.
+An initial 10-snapshot mode-resolved calculation is now available under `benchmarks/kobayashi_2026/mode_results/`. An independently estimated q_min acoustic cutoff does not reproduce the Green-Kubo attraction dependence with a single Markovian damping constant. A second-order pressure-memory diagnostic extracted from the supplied correlation functions captures a substantial part of the missing attraction sensitivity, and the core now supports a complex frequency-dependent memory transform. This remains a research-stage diagnostic rather than an independent viscosity prediction; end-to-end NALD bulk-viscosity validation is still in progress.
 
 ## References
 
