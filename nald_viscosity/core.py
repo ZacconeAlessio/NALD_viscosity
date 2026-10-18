@@ -130,3 +130,66 @@ def zero_frequency_viscosity_si(
     if np.any(lam_s2 == 0.0):
         raise ValueError("zero eigenvalues must be removed before evaluating viscosity")
     return float(np.sum(gamma_si * nu_s1 / (lam_s2**2)) / volume_m3)
+
+
+def loss_modulus_memory_si(
+    omega_s1: np.ndarray,
+    lam_s2: np.ndarray,
+    gamma_si: np.ndarray,
+    volume_m3: float,
+    memory_s1,
+) -> np.ndarray:
+    """Return loss modulus for a causal generalized friction kernel.
+
+    We use the Fourier convention in which the modal denominator is
+
+        lambda - Omega^2 - i Omega nu_tilde(Omega),
+
+    with nu_tilde = nu_R + i nu_I.  Therefore
+
+        M''(Omega) = (1/V) sum Gamma * Omega * nu_R
+                     / [ (lambda-Omega^2+Omega*nu_I)^2
+                         + (Omega*nu_R)^2 ].
+
+    A real, frequency-independent nu_tilde reproduces loss_modulus_si().
+    """
+    omega_s1 = np.asarray(omega_s1, dtype=float)
+    memory = np.asarray(memory_s1, dtype=complex)
+    if volume_m3 <= 0:
+        raise ValueError("volume must be positive")
+    if memory.ndim == 0:
+        memory = np.full(omega_s1.shape, memory, dtype=complex)
+    if memory.shape != omega_s1.shape:
+        raise ValueError("memory_s1 must be scalar or match omega_s1")
+    if np.any(np.real(memory) < 0.0):
+        raise ValueError("dissipative memory must have non-negative real part")
+
+    out = np.empty_like(omega_s1)
+    for j, omega in enumerate(omega_s1):
+        nu_r = float(np.real(memory[j]))
+        nu_i = float(np.imag(memory[j]))
+        real_den = lam_s2 - omega**2 + omega * nu_i
+        imag_den = omega * nu_r
+        den = real_den**2 + imag_den**2
+        out[j] = np.sum(gamma_si * imag_den / den) / volume_m3
+    return out
+
+
+def zero_frequency_viscosity_memory_si(
+    lam_s2: np.ndarray,
+    gamma_si: np.ndarray,
+    volume_m3: float,
+    memory_zero_s1: complex,
+) -> float:
+    """Return the zero-frequency viscosity for a generalized memory kernel.
+
+    Only Re[nu_tilde(0)] contributes to lim M''(Omega)/Omega.
+    """
+    if volume_m3 <= 0:
+        raise ValueError("volume must be positive")
+    if np.any(lam_s2 == 0.0):
+        raise ValueError("zero eigenvalues must be removed before evaluating viscosity")
+    nu0 = float(np.real(memory_zero_s1))
+    if nu0 <= 0.0:
+        raise ValueError("Re[memory_zero_s1] must be positive")
+    return float(np.sum(gamma_si * nu0 / (lam_s2**2)) / volume_m3)
