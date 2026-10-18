@@ -16,4 +16,4 @@ dependencies = ["numpy>=1.23"]
 Repository = "https://github.com/ZacconeAlessio/NALD_viscosity"
 
 [tool.setuptools.packages.find]
-include = ["nald_viscosity*"]
+include = ["nald_viscosity*", "benchmarks*"]
