@@ -115,7 +115,7 @@ collaborator-authorized data subset is public under
 `benchmarks/kobayashi_2026/data/`, with provenance and citation requirements
 documented there. The complete collaborator MD package/manual has now been
 checked and the benchmark code mirrors its pair-force and cutoff conventions.
-End-to-end NALD bulk-viscosity validation is still in progress.
+An initial 10-snapshot mode-resolved calculation is now available under `benchmarks/kobayashi_2026/mode_results/`: the bulk structural prefactor shows the correct order-of-magnitude attraction sensitivity, while the low-frequency cutoff and damping/memory treatment remain to be fixed independently. End-to-end NALD bulk-viscosity validation is therefore still in progress.
 
 ## References
 
