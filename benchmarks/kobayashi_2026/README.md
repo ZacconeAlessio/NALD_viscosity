@@ -125,6 +125,30 @@ model: bulk viscosity changes by about 8% when the system size is increased to
 32,000 particles. System-size effects therefore remain an important part of a
 rigorous comparison.
 
+## First mode-resolved result
+
+The first full 10-snapshot Hessian/affine-force calculation has now been
+completed for both `s=1.00` and `s=0.00`.  The exploratory results are in
+[`mode_results/`](mode_results/).
+
+The main finding so far is that the **bulk structural prefactor is strongly
+attraction sensitive**.  With a symmetric 0.100 THz low-frequency cutoff,
+
+```text
+A_K(s=1.00) / A_K(s=0.00) = 10.424
+```
+
+compared with the published Green-Kubo bulk-viscosity ratio of 11.017.
+A bootstrap analysis places the cutoff at which the structural ratio crosses
+the published ratio near 0.095 THz.
+
+This agreement is not yet counted as validation because the low-frequency
+cutoff has not been fixed independently.  Moreover, the shear ratio is not
+simultaneously reproduced by the same cutoff and constant damping.  The current
+result therefore points directly to the remaining physics: a justified
+longitudinal/transverse finite-size treatment and/or a frequency-dependent
+memory kernel.
+
 ## Data provenance
 
 The collaborator-supplied benchmark data are separate from the MIT-licensed
