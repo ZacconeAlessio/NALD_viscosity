@@ -3,8 +3,10 @@ import numpy as np
 
 from nald_viscosity.core import (
     GAMMA_REAL_MW_TO_SI,
+    loss_modulus_memory_si,
     loss_modulus_si,
     select_modes,
+    zero_frequency_viscosity_memory_si,
     zero_frequency_viscosity_si,
 )
 
@@ -41,6 +43,25 @@ class TestCore(unittest.TestCase):
         np.testing.assert_allclose(kept, [-9.0, 9.0])
         self.assertEqual(info["removed_zero"], 1)
         self.assertEqual(info["removed_cutoff"], 2)
+
+    def test_constant_memory_reproduces_markovian_loss(self):
+        lam = np.array([-7.0, 4.0, 11.0])
+        gamma = np.array([0.5, 2.0, 1.5])
+        omega = np.array([0.1, 0.4, 1.2])
+        volume = 5.0
+        nu = 3.0
+        expected = loss_modulus_si(omega, lam, gamma, volume, nu)
+        got = loss_modulus_memory_si(omega, lam, gamma, volume, nu)
+        np.testing.assert_allclose(got, expected, rtol=1.0e-14, atol=0.0)
+
+    def test_zero_frequency_memory_reproduces_markovian_viscosity(self):
+        lam = np.array([-4.0, 4.0])
+        gamma = np.array([2.0, 2.0])
+        volume = 5.0
+        nu = 3.0
+        expected = zero_frequency_viscosity_si(lam, gamma, volume, nu)
+        got = zero_frequency_viscosity_memory_si(lam, gamma, volume, complex(nu, 2.0))
+        self.assertAlmostEqual(got, expected, places=14)
 
     def test_real_unit_gamma_conversion(self):
         self.assertAlmostEqual(
