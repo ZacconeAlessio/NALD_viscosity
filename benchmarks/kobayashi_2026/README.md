@@ -164,6 +164,23 @@ dynamical contrast (integral relaxation times 0.565 ps versus 0.0898 ps, with
 therefore a non-Markovian, channel-dependent memory treatment tied to the
 observed low-q pressure-density relaxation rather than a fitted scalar damping.
 
+## Memory-kernel diagnostic
+
+The supplied pressure-correlation functions have now also been analyzed with a
+second-order Mori memory equation. The resulting zero-frequency pressure-memory
+scale changes by a factor of about 3.42 from `s=0.00` to `s=1.00`.
+Combining that dynamical ratio with the independently regularized bulk
+structural ratio (2.19) gives a composite ratio of about 7.50, compared with
+the Green-Kubo bulk-viscosity ratio 11.02.
+
+This is intentionally reported as a diagnostic rather than a prediction,
+because the pressure memory is extracted from the same pressure-correlation
+data used in the Green-Kubo calculation. It nevertheless shows that the missing
+attraction dependence is predominantly dynamical and strongly weighted toward
+the long-time pressure-relaxation sector. The generalized NALD core now accepts
+a complex, frequency-dependent memory transform so that this question can be
+tested explicitly.
+
 ## Data provenance
 
 The collaborator-supplied benchmark data are separate from the MIT-licensed
