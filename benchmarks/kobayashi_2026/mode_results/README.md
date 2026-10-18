@@ -20,7 +20,17 @@ from the damping parameter `nu`.  Both stable and unstable instantaneous
 normal modes are retained. Numerical null modes are removed separately from
 any physical low-frequency cutoff.
 
+## Numerical checks
+
+On the first supplied snapshot of each model, the analytic central-force
+Hessian was checked against a centered finite difference of the force along a
+random non-translational displacement.  The relative discrepancy is about
+1e-8.  The bulk and shear affine-force vectors at strain step 1e-6 also agree
+with a 3e-7 calculation to about 1e-8 relative accuracy.  See
+`numerical_checks.csv`.
+
 ## Mode counts
+
 
 Averaged over ten snapshots:
 
@@ -93,6 +103,7 @@ pressure relaxation as the dominant attraction-sensitive mechanism.
 ## Files
 
 - `mode_count_summary.csv`: ensemble mode/null-space statistics.
+- `numerical_checks.csv`: finite-difference Hessian and affine-force checks.
 - `cross_model_predictions.csv`: bulk and shear attraction-ratio scan.
 - `bootstrap_cutoff_summary.csv`: bootstrap sensitivity of the bulk crossing.
 - `../analyze_mode_ensemble.py`: reproducible local analysis from the
