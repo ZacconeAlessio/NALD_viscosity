@@ -152,6 +152,54 @@ The benchmark therefore points to the next theory step: a non-Markovian and
 possibly channel-dependent memory treatment, tested against the supplied
 pressure-relaxation data rather than tuned only to the final viscosity.
 
+
+## Second-order pressure-memory diagnostic
+
+To move beyond a scalar Markovian damping constant, the supplied pressure
+correlations were also analyzed with a second-order Mori form,
+
+```text
+C''(t) + omega0^2 C(t)
+  + integral_0^t nu(t-t') C'(t') dt' = 0.
+```
+
+For the normalized correlation, the Laplace-domain memory is
+
+```text
+nu_tilde(s) =
+  [s - (s^2 + omega0^2) C_tilde(s)] / [s C_tilde(s) - 1].
+```
+
+The short-time curvature gives `omega0^2=-C''(0)`.  Using a 0.04 ps even
+quartic fit to the raw supplied correlations gives:
+
+| model | bare frequency (THz) | tau_pressure (ps) | nu_tilde(0) (ps^-1) |
+| --- | ---: | ---: | ---: |
+| s=1.00 | 1.649 | 0.5655 | 60.73 |
+| s=0.00 | 2.238 | 0.08984 | 17.77 |
+
+Thus the zero-frequency pressure-memory scale changes by a factor of 3.418
+between the two interaction models. Combining that dynamical ratio with the
+independently regularized bulk structural ratio, 2.194, gives
+
+```text
+2.194 * 3.418 = 7.50,
+```
+
+which moves substantially toward the Green-Kubo bulk-viscosity ratio 11.017
+but does not fully reproduce it.
+
+This is a **diagnostic, not a prediction**: the pressure-memory information is
+derived from the same pressure-correlation data used by Green-Kubo. Its value is
+that it identifies the sign, scale, and frequency dependence of the missing
+dynamical contribution. The remaining model-dependent factor differs by about
+1.47 between s=1.00 and s=0.00.
+
+The Laplace scan also shows that the attraction effect is strongest at long
+times: `nu_tilde_s1/nu_tilde_s0` is about 3.42 at s=0 and approaches unity
+as the Laplace rate increases. This is qualitatively consistent with the slow
+pressure-relaxation tail being the attraction-sensitive part of the dynamics.
+
 ## Why this is not yet a complete validation
 
 The independent acoustic calculation resolves the finite-size question but
@@ -171,6 +219,9 @@ Kobayashi can constrain that kernel without fitting the final viscosity.
 - `acoustic_qmin_summary.csv`: independent q_min longitudinal/transverse scales.
 - `physical_cutoff_summary.csv`: structural prefactors using those q_min scales.
 - `pressure_relaxation_summary.csv`: direct integral/tail diagnostics from supplied correlations.
+- `pressure_memory_summary.csv`: second-order Mori zero-frequency memory diagnostic.
+- `pressure_memory_laplace.csv`: real-Laplace pressure-memory scan.
+- `memory_nald_bridge.csv`: structural x pressure-memory comparison with Green-Kubo.
 - `published_relaxation_fit_endpoints.csv`: published s=1 and s=0 relaxation-fit endpoints.
 - `../analyze_mode_ensemble.py`: mode-resolved local analysis.
 - `../analyze_acoustic_ensemble.py`: independent plane-wave q_min analysis.
