@@ -29,6 +29,7 @@ import numpy as np
 from benchmarks.kobayashi_2026.mode_analysis import (
     branch_counts,
     null_gamma_fraction,
+    numerical_null_mask,
     signed_frequency_thz,
     structural_prefactor,
 )
@@ -105,7 +106,7 @@ def main() -> None:
             gamma_shear = (eigenvectors.T @ xi_shear) ** 2
             counts = branch_counts(eigenvalues)
             freq = np.abs(signed_frequency_thz(eigenvalues))
-            nonnull = freq[eigenvalues != 0.0]
+            nonnull = freq[~numerical_null_mask(eigenvalues)]
 
             row: dict[str, object] = {
                 "model": model,
