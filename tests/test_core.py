@@ -54,6 +54,18 @@ class TestCore(unittest.TestCase):
         got = loss_modulus_memory_si(omega, lam, gamma, volume, nu)
         np.testing.assert_allclose(got, expected, rtol=1.0e-14, atol=0.0)
 
+    def test_complex_memory_matches_direct_complex_response(self):
+        lam = np.array([4.0, 9.0])
+        gamma = np.array([2.0, 1.0])
+        omega = np.array([0.7])
+        volume = 3.0
+        memory = np.array([2.0 + 0.5j])
+
+        got = loss_modulus_memory_si(omega, lam, gamma, volume, memory)
+        den = lam - omega[0] ** 2 + 1j * omega[0] * memory[0]
+        expected = np.imag(-np.sum(gamma / den) / volume)
+        self.assertAlmostEqual(float(got[0]), float(expected), places=14)
+
     def test_zero_frequency_memory_reproduces_markovian_viscosity(self):
         lam = np.array([-4.0, 4.0])
         gamma = np.array([2.0, 2.0])
