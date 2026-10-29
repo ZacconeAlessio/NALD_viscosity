@@ -143,12 +143,12 @@ def loss_modulus_memory_si(
 
     We use the Fourier convention in which the modal denominator is
 
-        lambda - Omega^2 - i Omega nu_tilde(Omega),
+        lambda - Omega^2 + i Omega nu_tilde(Omega),
 
     with nu_tilde = nu_R + i nu_I.  Therefore
 
         M''(Omega) = (1/V) sum Gamma * Omega * nu_R
-                     / [ (lambda-Omega^2+Omega*nu_I)^2
+                     / [ (lambda-Omega^2-Omega*nu_I)^2
                          + (Omega*nu_R)^2 ].
 
     A real, frequency-independent nu_tilde reproduces loss_modulus_si().
@@ -168,7 +168,7 @@ def loss_modulus_memory_si(
     for j, omega in enumerate(omega_s1):
         nu_r = float(np.real(memory[j]))
         nu_i = float(np.imag(memory[j]))
-        real_den = lam_s2 - omega**2 + omega * nu_i
+        real_den = lam_s2 - omega**2 - omega * nu_i
         imag_den = omega * nu_r
         den = real_den**2 + imag_den**2
         out[j] = np.sum(gamma_si * imag_den / den) / volume_m3
