@@ -150,11 +150,11 @@ With the model-specific q_min longitudinal cutoff for bulk, the structural
 ratio is only
 
 ```text
-A_K(s=1.00) / A_K(s=0.00) = 2.194,
+A_K(s=1.00) / A_K(s=0.00) = 2.191,
 ```
 
 versus the Green-Kubo bulk-viscosity ratio 11.017. The corresponding shear
-structural ratio using the transverse q_min scale is 3.176, versus the
+structural ratio using the transverse q_min scale is 3.174, versus the
 Green-Kubo shear-viscosity ratio 1.213.
 
 This is a useful diagnostic result: the static Hessian/affine-force sector is
@@ -164,13 +164,32 @@ dynamical contrast (integral relaxation times 0.565 ps versus 0.0898 ps, with
 therefore a non-Markovian, channel-dependent memory treatment tied to the
 observed low-q pressure-density relaxation rather than a fitted scalar damping.
 
+## Subcutoff mode-character audit
+
+A three-snapshot audit (frames 0, 5, and 9 for each model) now tests whether
+the modes removed by the hard acoustic cutoff actually resemble q_min plane
+waves.  For the bulk subcutoff structural weight, the A-weighted q_min
+plane-wave overlap is almost identical in the two models (~0.035), whereas the
+A-weighted participation ratio is very different: about 0.274 for s=1.00 and
+0.057 for s=0.00.
+
+This means that the large s=1.00 subcutoff contribution is not simply more
+q_min-acoustic in character.  It is carried by substantially more extended
+instantaneous soft modes.  That does not prove those modes should be retained
+in a transport calculation, because their lifetime is a dynamical question,
+but it shows that a blanket hard frequency cutoff cannot by itself separate
+finite-size acoustic artifacts from other soft instantaneous modes.
+
+See [`DYNAMICS_AUDIT.md`](DYNAMICS_AUDIT.md) and
+[`mode_results/low_mode_audit_sample.csv`](mode_results/low_mode_audit_sample.csv).
+
 ## Memory-kernel diagnostic
 
 The supplied pressure-correlation functions have now also been analyzed with a
 second-order Mori memory equation. The resulting zero-frequency pressure-memory
 scale changes by a factor of about 3.42 from `s=0.00` to `s=1.00`.
 Combining that dynamical ratio with the independently regularized bulk
-structural ratio (2.19) gives a composite ratio of about 7.50, compared with
+structural ratio (2.19) gives a composite ratio of about 7.49, compared with
 the Green-Kubo bulk-viscosity ratio 11.02.
 
 This is intentionally reported as a diagnostic rather than a prediction,
