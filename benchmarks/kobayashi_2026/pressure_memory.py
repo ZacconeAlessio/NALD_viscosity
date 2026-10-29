@@ -65,7 +65,7 @@ def laplace_correlation(time_s, corr, s_s1: float) -> float:
     if s_s1 < 0.0:
         raise ValueError("Laplace rate must be non-negative")
     t, c = _normalized(time_s, corr)
-    return float(np.trapezoid(c * np.exp(-s_s1 * t), t))
+    return float(np.trapz(c * np.exp(-s_s1 * t), t))
 
 
 def second_order_memory_laplace(
