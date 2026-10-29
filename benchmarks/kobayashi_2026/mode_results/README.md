@@ -96,8 +96,8 @@ Averaged over ten snapshots:
 
 | model | f_L(q_min) (THz) | f_T(q_min) (THz) |
 | --- | ---: | ---: |
-| s=1.00 | 0.2745 +/- 0.0031 | 0.1620 +/- 0.0023 |
-| s=0.00 | 0.2815 +/- 0.0014 | 0.1496 +/- 0.0020 |
+| s=1.00 | 0.2746 +/- 0.0031 | 0.1619 +/- 0.0022 |
+| s=0.00 | 0.2817 +/- 0.0015 | 0.1495 +/- 0.0020 |
 
 Therefore the earlier fitted crossing near 0.095 THz lies **below** both the
 independently estimated transverse and longitudinal fundamental propagating
@@ -108,8 +108,8 @@ Using the model-specific longitudinal q_min scale for the bulk channel and the
 transverse q_min scale for shear gives
 
 ```text
-A_K(s=1.00) / A_K(s=0.00) = 2.194
-A_G(s=1.00) / A_G(s=0.00) = 3.176
+A_K(s=1.00) / A_K(s=0.00) = 2.191
+A_G(s=1.00) / A_G(s=0.00) = 3.174
 ```
 
 compared with the published Green-Kubo ratios
@@ -127,12 +127,35 @@ If each model is forced into the constant-Markovian form eta_M=nu*A_M, the
 required damping ratios are
 
 ```text
-nu_bulk(s=1.00) / nu_bulk(s=0.00) = 5.02
+nu_bulk(s=1.00) / nu_bulk(s=0.00) = 5.03
 nu_shear(s=1.00) / nu_shear(s=0.00) = 0.382.
 ```
 
 The opposite trends in the two channels rule out a single transferable scalar
 damping constant as a satisfactory explanation.
+
+## What lies below the acoustic cutoff?
+
+The hard q_min cutoff was audited on frames 0, 5, and 9 of both models using
+two descriptors that do not enter the viscosity fit: atom-wise participation
+ratio and overlap with the q_min plane-wave subspace.
+
+For the bulk subcutoff structural weight, the three-frame averages are:
+
+| model | A-weighted participation ratio | A-weighted q_min plane-wave weight |
+| --- | ---: | ---: |
+| s=1.00 | 0.274 +/- 0.049 | 0.0352 +/- 0.0051 |
+| s=0.00 | 0.0573 +/- 0.0073 | 0.0348 +/- 0.0033 |
+
+The q_min overlap is essentially unchanged while the spatial character is very
+different.  In s=1.00, very soft extended instantaneous modes can dominate the
+unregularized structural prefactor; in s=0.00 the corresponding subcutoff
+weight is distributed over much more localized modes.
+
+This does not license retaining all subcutoff modes: instantaneous soft modes
+can be transient, so their lifetime belongs to the memory problem.  It does,
+however, show that a frequency-only cutoff is not a complete mode
+classification. See `low_mode_audit_sample.csv`.
 
 ## Pressure-relaxation target
 
@@ -180,10 +203,10 @@ quartic fit to the raw supplied correlations gives:
 
 Thus the zero-frequency pressure-memory scale changes by a factor of 3.418
 between the two interaction models. Combining that dynamical ratio with the
-independently regularized bulk structural ratio, 2.194, gives
+independently regularized bulk structural ratio, 2.191, gives
 
 ```text
-2.194 * 3.418 = 7.50,
+2.191 * 3.418 = 7.49,
 ```
 
 which moves substantially toward the Green-Kubo bulk-viscosity ratio 11.017
@@ -218,6 +241,7 @@ Kobayashi can constrain that kernel without fitting the final viscosity.
 - `bootstrap_cutoff_summary.csv`: bootstrap sensitivity of the exploratory crossing.
 - `acoustic_qmin_summary.csv`: independent q_min longitudinal/transverse scales.
 - `physical_cutoff_summary.csv`: structural prefactors using those q_min scales.
+- `low_mode_audit_sample.csv`: verified frames 0/5/9 participation-ratio and q_min-overlap audit.
 - `pressure_relaxation_summary.csv`: direct integral/tail diagnostics from supplied correlations.
 - `pressure_memory_summary.csv`: second-order Mori zero-frequency memory diagnostic.
 - `pressure_memory_laplace.csv`: real-Laplace pressure-memory scan.
@@ -225,6 +249,8 @@ Kobayashi can constrain that kernel without fitting the final viscosity.
 - `published_relaxation_fit_endpoints.csv`: published s=1 and s=0 relaxation-fit endpoints.
 - `../analyze_mode_ensemble.py`: mode-resolved local analysis.
 - `../analyze_acoustic_ensemble.py`: independent plane-wave q_min analysis.
+- `../analyze_physical_cutoff_ensemble.py`: authoritative physical-cutoff regeneration.
+- `../analyze_low_modes.py`: participation-ratio/q_min subcutoff mode audit.
 - `../analyze_pressure_relaxation.py`: correlation-tail analysis.
 
 All numerical values here should be treated as research-stage benchmark output.
