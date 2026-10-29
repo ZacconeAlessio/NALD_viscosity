@@ -20,10 +20,12 @@ import argparse
 from pathlib import Path
 import numpy as np
 
-N_ATOMS = 1372
-DENSITY_KG_M3 = 1124.9
-ARGON_MASS_U = 39.948
-AMU_KG = 1.66053906660e-27
+from benchmarks.kobayashi_2026.static_nald import (
+    DENSITY_KG_M3,
+    N_ATOMS,
+    source_box_length_m,
+)
+from benchmarks.kobayashi_2026.tt_jhbv import ARGON_MASS_KG
 
 PUBLISHED = {
     "s_1.00": {
@@ -57,10 +59,13 @@ def load_frames(path: Path, natoms: int = N_ATOMS) -> list[tuple[int, np.ndarray
 def inferred_box_length_m(
     natoms: int = N_ATOMS,
     density_kg_m3: float = DENSITY_KG_M3,
-    argon_mass_u: float = ARGON_MASS_U,
 ) -> float:
-    volume = natoms * argon_mass_u * AMU_KG / density_kg_m3
-    return volume ** (1.0/3.0)
+    """Use the exact argon mass convention of the supplied production source."""
+    return source_box_length_m(
+        natoms=natoms,
+        density_kg_m3=density_kg_m3,
+        mass_kg=ARGON_MASS_KG,
+    )
 
 
 def validate_state(root: Path, name: str) -> None:
@@ -92,7 +97,7 @@ def validate_state(root: Path, name: str) -> None:
     print(f"published zeta: {pub['zeta_pa_s']:.12g} +/- {pub['zeta_stderr_pa_s']:.2g} Pa s")
     print(f"difference/published: {(zeta/pub['zeta_pa_s']-1.0)*100:.3f}%")
     print(f"coordinate frames: {len(frames)}; steps {steps[0]}..{steps[-1]}; interval {step_interval}")
-    print(f"inferred cubic L (m_Ar={ARGON_MASS_U} u): {box*1e9:.9g} nm")
+    print(f"inferred cubic L (source m_Ar={ARGON_MASS_KG:.7g} kg): {box*1e9:.9g} nm")
     print(f"coordinate range: {min_coord*1e9:.6g}..{max_coord*1e9:.6g} nm")
     if max_coord >= box * 1.001 or min_coord < -1e-15:
         raise ValueError(f"{name}: coordinates appear inconsistent with inferred box")
